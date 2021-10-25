@@ -5,17 +5,18 @@ import Product from '../Product/Product';
 const Products = () => {
     const [products, setProducts] = useState([]);
     const [numberOfPage, setNumberOfPage] = useState(1);
-
-    // Handle Page Number
-    const handlePageNumber = number => {
-        setNumberOfPage(number);
-    };
+    const [currentPage, setCurrentPage] = useState(1);
+    const size = 10;
 
     // For pagination
-    let active = 2;
+    const handlePageNumber = number => {
+        setProducts([]);
+        setCurrentPage(number);
+    };
+
+    let active = currentPage;
     let items = [];
-    const pages = Math.ceil(products.length / 10);
-    for (let number = 1; number <= pages; number++) {
+    for (let number = 1; number < numberOfPage; number++) {
         items.push(
             <Pagination.Item onClick={() => handlePageNumber(number)} key={number} active={number === active}>
                 {number}
@@ -24,12 +25,14 @@ const Products = () => {
     };
 
     useEffect(() => {
-        fetch(`http://localhost:5000/products?pageNumber=${numberOfPage}&&size=${numberOfPage * 10}`)
+        fetch(`http://localhost:5000/products?currentPage=${currentPage}&&size=${size}`)
             .then(res => res.json())
             .then(data => {
-                setProducts(data);
+                const pages = Math.ceil(data.count / size);
+                setProducts(data.productsArray);
+                setNumberOfPage(pages)
             });
-    }, []);
+    }, [currentPage]);
 
     return (
         <Container className="my-5">
