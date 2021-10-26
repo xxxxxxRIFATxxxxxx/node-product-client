@@ -3,6 +3,7 @@ import { Card, Col } from 'react-bootstrap';
 
 const Product = props => {
     const { name, img, price } = props.product;
+    const { handleAddToCart, product } = props;
 
     return (
         <Col>
@@ -16,7 +17,7 @@ const Product = props => {
                         <h4 className="text-white display-6 text-center p-2">$ {price}</h4>
                     </Card.Text>
 
-                    <button className="btn btn-success w-100">Add to cart</button>
+                    <button className="btn btn-success w-100" onClick={() => handleAddToCart(product)}>Add to cart</button>
                 </Card.Body>
             </Card>
         </Col>
