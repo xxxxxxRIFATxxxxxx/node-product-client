@@ -122,7 +122,27 @@ const Products = () => {
 
                         <tbody>
                             {
-                                cart.length
+                                cart.length > 0 ? cart.map(pd => {
+                                    return (
+                                        <tr>
+                                            <td>
+                                                {cart.indexOf(pd) + 1}
+                                            </td>
+
+                                            <td>
+                                                {pd.name}
+                                            </td>
+
+                                            <td>
+                                                {pd.qty}
+                                            </td>
+
+                                            <td>
+                                                {pd.price * pd.qty}
+                                            </td>
+                                        </tr>
+                                    );
+                                }) : null
                             }
                         </tbody>
                     </Table>
